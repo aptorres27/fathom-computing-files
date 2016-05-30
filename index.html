@@ -1,0 +1,70 @@
+<div class="main" id="main">
+      	<section class="top">
+		    <!--div class="logo">
+	        	<img src="images/logo-round.png">
+	        </div-->
+	        <div class="name">
+	        	<img src="http://www.fathomcomputing.com/mod/images/fb2.gif">
+	        </div>
+        </section>
+  
+        <section class="cont">
+	        <a href="https://fathomcomputing.recruitee.com" target="_blanck" class="jobs-cont" id="jobs-cont"><button type="button" class="jobs" id="jobs">jobs</button></a>
+	        <button type="button" class="contact-us" id="contactUs">contact us</button>
+          
+	        <form class="contacts-form" id="form">
+	        	<p>contact us</p>
+	        	<div class="cancel"><img src="http://www.fathomcomputing.com/mod/images/close.png"></div>
+	        	<input type="text" placeholder="Name" id="name">
+	        	<input type="text" placeholder="Email" id="email">
+	        	<textarea class="message" id="message" placeholder="Your Message"></textarea>
+	        	<button type="button" class="send" id="send_me">send</button>
+	        	<div class="clear">&nbsp;</div>
+	        </form>
+        </section>
+    </div>
+
+
+
+<script id="sf" type="x-shader/x-fragment">
+#ifdef GL_ES
+precision mediump float;
+#endif
+
+float hash (float v) {
+  return smoothstep(0.1, 0.9, abs(sin(v))) * 20.0;
+}
+
+uniform float time;
+uniform vec2 mouse;  
+uniform vec2 resolution;
+
+void main(void) {
+    vec2 q = gl_FragCoord.xy / resolution.xy;
+    vec2 p = -1.0 + 2.0 * q;		
+    p.x *= resolution.x / resolution.y;	
+    	
+    vec3 col = vec3(0.2, 0.3, 0.4);
+    vec3 c = vec3(0.0);	
+    c += col / (abs(tan(hash(p.x) + cos(time + p.y) + mouse.y * 10.0))); 
+    c += col / (abs(tan(hash(p.y) + cos(time + p.x) + mouse.x * 10.0)));
+    c /= 5.0;	
+	
+    gl_FragColor = vec4(c, 1.0);
+}
+</script>
+<script id="sv" type="x-shader/x-vertex">
+  attribute vec4 vPosition;
+  void main (void) {
+  gl_Position = vPosition;
+  }
+</script>
+
+
+<canvas></canvas>
+
+
+
+
+
+
